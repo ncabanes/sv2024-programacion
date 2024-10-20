@@ -1,5 +1,5 @@
 /* --------------------
- * MARTA ORTIZ GONZÁLEZ
+ * MARTA (...)
  * --------------------
  * 
  * Muestra un rectángulo hueco, con el ancho y el alto que elija el 
@@ -54,4 +54,3 @@ class Ejercicio45
         }
     }
 }
-
