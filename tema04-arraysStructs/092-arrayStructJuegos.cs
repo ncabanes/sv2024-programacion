@@ -24,10 +24,9 @@ class Ejercicio92
         public string titulo;
         public string categoria;
         public string plataforma;
-        public int anyo;
-        public double calificacion;
-        public string descripcion;
-        public int registro;
+        public short anyo;
+        public float calificacion;
+        public string comentarios;
     }
     
     static void Main()
@@ -36,8 +35,9 @@ class Ejercicio92
         tipoJuego [] juegos = new tipoJuego [CAPACIDAD];
         string opcion, textoBuscar;
         string tituloAux, descripcionAux, categoriaAux, plataformaAux;
-        int anyoAux, registroAux;
-        double calificacionAux;
+        short anyoAux;
+        int registroAux;
+        float calificacionAux;
         int contador = 0;
         int i, j;
         bool encontrado;
@@ -92,11 +92,11 @@ class Ejercicio92
                         
                         do
                         {
-                            Console.Write("Descripción: ");
+                            Console.Write("Comentarios: ");
                             descripcionAux = Console.ReadLine();
                             if(descripcionAux != "")
                             {
-                                juegos[contador].descripcion = descripcionAux;
+                                juegos[contador].comentarios = descripcionAux;
                             }
                             else
                             {
@@ -108,7 +108,7 @@ class Ejercicio92
                         do
                         { 
                             Console.WriteLine("Categoría: ");
-                            anyoAux = Convert.ToInt32(Console.ReadLine());
+                            anyoAux = Convert.ToInt16(Console.ReadLine());
                             if((anyoAux >= 1940) && (anyoAux <= 2100))
                             {
                                 juegos[contador].anyo = anyoAux;
@@ -123,7 +123,7 @@ class Ejercicio92
                         do
                         {
                             Console.WriteLine("Calificación: ");
-                            calificacionAux = Convert.ToDouble(Console.ReadLine());
+                            calificacionAux = Convert.ToSingle(Console.ReadLine());
                             if((calificacionAux >= 0) && (calificacionAux <= 10))
                             {
                                 juegos[contador].calificacion = calificacionAux;
@@ -139,9 +139,7 @@ class Ejercicio92
                         juegos[contador].categoria = Console.ReadLine();
                         Console.WriteLine("Plataforma: ");
                         juegos[contador].plataforma = Console.ReadLine();
-                        
-                        //Suponemos que el usuario buscará desde 1
-                        juegos[contador].registro = contador+1;
+
                         contador++;
                     }
                     break;
@@ -161,17 +159,16 @@ class Ejercicio92
                         if(opcion.ToUpper() == "R")
                         {
                             Console.Write("Introduzca el número de registro: ");
-                            registroAux = Convert.ToInt32( Console.ReadLine() );
+                            registroAux = Convert.ToInt32( Console.ReadLine() ) - 1;
                             if (registroAux >= 0 && registroAux < contador)
                             {
-                                Console.WriteLine();
                                 Console.WriteLine("Título: "+juegos[registroAux].titulo);
                                 Console.WriteLine("Categoría: "+juegos[registroAux].categoria);
                                 Console.WriteLine("Plataforma: "+juegos[registroAux].plataforma);
                                 Console.WriteLine("Año: "+juegos[registroAux].anyo);
                                 Console.WriteLine("Calificación: "+juegos[registroAux].calificacion);
-                                Console.WriteLine("Descripción: "+juegos[registroAux].descripcion);
-                                Console.WriteLine("Número de registro: "+(juegos[registroAux].registro));
+                                Console.WriteLine("Comentarios: "+juegos[registroAux].comentarios);
+                                
                             }
                             else
                             {
@@ -188,13 +185,13 @@ class Ejercicio92
                                     if(tituloAux.ToUpper() == juegos[i].titulo.ToUpper())
                                     {
                                         Console.WriteLine();
+                                        Console.WriteLine("Número de registro: "+(i+1));
                                         Console.WriteLine("Título: "+juegos[i].titulo);
                                         Console.WriteLine("Categoría: "+juegos[i].categoria);
                                         Console.WriteLine("Plataforma: "+juegos[i].plataforma);
                                         Console.WriteLine("Año: "+juegos[i].anyo);
                                         Console.WriteLine("Calificación: "+juegos[i].calificacion);
-                                        Console.WriteLine("Descripción: "+juegos[i].descripcion);
-                                        Console.WriteLine("Número de registro: "+(juegos[i].registro));
+                                        Console.WriteLine("Comentarios: "+juegos[i].comentarios);
                                         encontrado = true;
                                     }
                                 }
@@ -230,7 +227,7 @@ class Ejercicio92
                             &&(plataformaAux == juegos[i].plataforma))
                         {
                             Console.WriteLine();
-                            Console.WriteLine("Número de registro: "+(juegos[i].registro));
+                            Console.WriteLine("Número de registro: "+(i+1));
                             Console.WriteLine("Año: "+juegos[i].anyo);
                             Console.WriteLine("Calificación: "+juegos[i].calificacion);                                 
                         }
@@ -264,10 +261,9 @@ class Ejercicio92
                         if((juegos[i].titulo.ToUpper().Contains(textoBuscar.ToUpper())) ||
                             (juegos[i].categoria.ToUpper().Contains(textoBuscar.ToUpper())) ||
                             (juegos[i].plataforma.ToUpper().Contains(textoBuscar.ToUpper())) ||
-                            (juegos[i].descripcion.ToUpper().Contains(textoBuscar.ToUpper())))
+                            (juegos[i].comentarios.ToUpper().Contains(textoBuscar.ToUpper())))
                         {
-                            Console.Write(juegos[i].registro);
-                            Console.Write(" - " + juegos[i].titulo);
+                            Console.Write((i+1) + " - " + juegos[i].titulo);
                             Console.WriteLine("- Calif.: "+juegos[i].calificacion);                                 
                         }
                         
@@ -328,18 +324,18 @@ class Ejercicio92
                             juegos[registroAux-1].plataforma = plataformaAux;
                         }
                         
-                        Console.WriteLine("Descripción actual: "+juegos[registroAux-1].descripcion);
-                        Console.Write("Descripción nueva: ");
+                        Console.WriteLine("Comentario actual: "+juegos[registroAux-1].comentarios);
+                        Console.Write("Nuevo comentario: ");
                         descripcionAux = Console.ReadLine();
                         if( descripcionAux != "")
                         {
-                            juegos[registroAux-1].descripcion = descripcionAux;
+                            juegos[registroAux-1].comentarios = descripcionAux;
                         }
                         
                         Console.WriteLine("Año actual: "+juegos[registroAux-1].anyo);                               
                         do{
                             Console.Write("Año nuevo: ");
-                            anyoAux = Convert.ToInt32(Console.ReadLine());
+                            anyoAux = Convert.ToInt16(Console.ReadLine());
                             if((anyoAux >= 1940) && (anyoAux <= 2100))
                             {
                                 juegos[registroAux-1].anyo = anyoAux;
@@ -353,7 +349,7 @@ class Ejercicio92
                         Console.WriteLine("Calificación actual: "+juegos[registroAux-1].calificacion);                      
                         do{
                             Console.WriteLine("Calificación nueva : ");
-                            calificacionAux = Convert.ToDouble(Console.ReadLine());
+                            calificacionAux = Convert.ToSingle(Console.ReadLine());
                             if((calificacionAux >= 0) && (calificacionAux <= 10))
                             {
                                 juegos[registroAux-1].calificacion = calificacionAux;
@@ -387,13 +383,13 @@ class Ejercicio92
                     {
                         //Mostramos los datos del registro actuales
                         Console.WriteLine();
+                        Console.WriteLine("Número de registro: "+registroAux);
                         Console.WriteLine("Título: "+juegos[registroAux-1].titulo);
                         Console.WriteLine("Categoría: "+juegos[registroAux-1].categoria);
                         Console.WriteLine("Plataforma: "+juegos[registroAux-1].plataforma);
                         Console.WriteLine("Año: "+juegos[registroAux-1].anyo);
                         Console.WriteLine("Calificación: "+juegos[registroAux-1].calificacion);
-                        Console.WriteLine("Descripción: "+juegos[registroAux-1].descripcion);
-                        Console.WriteLine("Número de registro: "+(juegos[registroAux-1].registro));
+                        Console.WriteLine("Comentarios: "+juegos[registroAux-1].comentarios);
                         
                         //Pedimos confirmación
                         Console.WriteLine("Para confirmar el borrado pulse \"B\"");
@@ -446,10 +442,10 @@ class Ejercicio92
                 case "8": 
                     for(i=0; i<contador; i++)
                     {
-                        juegos[i].descripcion = juegos[i].descripcion.Trim();
-                        while(juegos[i].descripcion.Contains("  "))
+                        juegos[i].comentarios = juegos[i].comentarios.Trim();
+                        while(juegos[i].comentarios.Contains("  "))
                         {
-                            juegos[i].descripcion = juegos[i].descripcion.Replace("  "," ");
+                            juegos[i].comentarios = juegos[i].comentarios.Replace("  "," ");
                         }
                         
                         juegos[i].categoria = juegos[i].categoria.Trim();
