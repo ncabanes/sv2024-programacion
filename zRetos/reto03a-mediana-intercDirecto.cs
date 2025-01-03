@@ -73,9 +73,9 @@ class Mediana
                     {
                         if (numeros[i] > numeros[j])
                         {
-                            long temporal1 = numeros[i];
+                            long temporal = numeros[i];
                             numeros[i] = numeros[j];
-                            numeros[j] = temporal1;
+                            numeros[j] = temporal;
                         }
                     }
                 }
