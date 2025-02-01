@@ -1,12 +1,9 @@
-/* 156. Crea una nueva versión del ejercicio 148 (clase Libro y menú asociado), 
-a partir de la "solución oficial", en la que emplees "this" en el constructor 
-de "Libro" y añadas un constructor que permita indicar título y año, sin autor 
-(que se guardará como "Desconocido"). Este segundo constructor debe apoyarse en 
-el primero. Al añadir datos desde el menú, deberás usar el constructor original 
-si se indica autor, o el nuevo, en caso de que el autor se deje en blanco (el 
-usuario introduzca una cadena vacía). Emplea un "ToString" adecuado para 
-mostrar los resultados de las búsquedas, que devuelva todos los datos como 
-parte de una misma cadena, separados por " - ".*/
+/* 157. Crea una versión mejorada del ejercicio anterior, en la que tengamos 
+dos subtipos de Libro: LibroPapel (que añadirá un atributo "cantidadPaginas") y 
+LibroElectronico (que añadirá un atributo "URL"). El método "Mostrar" y el 
+"ToString" deberán incluir esos nuevos datos. A la hora de añadir datos, se 
+debe preguntar de qué tipo de libro se trata, pedir los campos adecuados y 
+guardar en el array un objeto del tipo adecuado. */
 
 using System;
 using System.Configuration;
@@ -49,7 +46,7 @@ public class Libro
         anyoPubli = (short)nuevoAnyoPubli;
     }
 
-    public void Mostrar()
+    public virtual void Mostrar()
     {
         Console.WriteLine("Título : " + titulo);
         Console.WriteLine("Autor: " + autor);
@@ -67,6 +64,62 @@ public class Libro
         return titulo + " - " + autor + " - " + anyoPubli;
     }
 }
+
+// ---------------------
+
+public class LibroPapel : Libro
+{
+    private int cantidadPaginas;
+
+    public LibroPapel(string titulo, string autor, int anyoPubli, int cantidadPaginas)
+        : base(titulo, autor, anyoPubli)
+    {
+        this.cantidadPaginas = cantidadPaginas;
+    }
+
+    public int GetCantidadPaginas() { return cantidadPaginas; }
+    public void SetCantidadPaginas(int cantidadPaginas) { this.cantidadPaginas = cantidadPaginas; }
+
+    public override void Mostrar()
+    {
+        base.Mostrar();
+        Console.WriteLine("Cantidad de páginas: " + cantidadPaginas);
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + " - " + cantidadPaginas +" páginas";
+    }
+}
+
+// ---------------------
+
+public class LibroElectronico : Libro
+{
+    private string url;
+
+    public LibroElectronico(string titulo, string autor, int anyoPubli, string url)
+        : base(titulo, autor, anyoPubli)
+    {
+        this.url = url;
+    }
+
+    public string GetUrl() { return url; }
+    public void SetUrl(string url) { this.url = url; }
+
+    public override void Mostrar()
+    {
+        base.Mostrar();
+        Console.WriteLine("URL: " + url);
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + " - URL: " + url;
+    }
+}
+
+// ---------------------
 
 class GestorLibros
 {
@@ -89,7 +142,6 @@ class GestorLibros
         string opcion = "";
         string tituloAux, autorAux, textoBuscar;
         short anyoAux;
-        Libro libroAux;
         int contadorLibros = 0;
 
         while (opcion != "S")
@@ -107,13 +159,29 @@ class GestorLibros
                     autorAux = Console.ReadLine();
                     Console.Write("Introduzca el año de publicación: ");
                     anyoAux = Convert.ToInt16(Console.ReadLine());
-
-                    if (autorAux == "")
-                        libroAux = new Libro(tituloAux, anyoAux);
-                    else
-                        libroAux = new Libro(tituloAux, autorAux, anyoAux);
                     
-                    libros[contadorLibros] = libroAux;
+                    string tipoLibro;
+                    do
+                    {
+
+                        Console.Write("¿Es un libro en papel (P) o electrónico (E)? ");
+                        tipoLibro = Console.ReadLine().ToUpper();
+
+                        if (tipoLibro == "P")
+                        {
+                            Console.Write("Introduzca la cantidad de páginas: ");
+                            int paginasAux = Convert.ToInt32(Console.ReadLine());
+                            libros[contadorLibros] = new LibroPapel(tituloAux, autorAux, anyoAux, paginasAux);
+                        }
+                        else if (tipoLibro == "E")
+                        {
+                            Console.Write("Introduzca la URL: ");
+                            string urlAux = Console.ReadLine();
+                            libros[contadorLibros] = new LibroElectronico(tituloAux, autorAux, anyoAux, urlAux);
+                        }
+                    }
+                    while (tipoLibro != "P" && tipoLibro != "E");
+                    
                     contadorLibros++;
                     break;
 
